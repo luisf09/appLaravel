@@ -1,0 +1,23 @@
+services:
+  laravel_api:
+    image: docker.io/bitnami/laravel:9
+    container_name: laravel_api
+    restart: always
+    entrypoint: ./docker-entrypoint.sh
+    env_file:
+      - ./.env
+    environment:
+      - TZ=America/Argentina/Ushuaia
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    volumes:
+      - .:/app
+      - ./Docker/php/php.ini:/opt/bitnami/php/etc/php.ini
+    networks:
+      - laravel_api-network
+    extra_hosts:
+      - host.docker.internal:host-gateway
+
+networks:
+  laravel_api-network:
+    driver: bridge
